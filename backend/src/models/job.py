@@ -1,4 +1,4 @@
-from sqlalchemy import String, JSON, Double, ForeignKey, Boolean
+from sqlalchemy import String, JSON, Double, ForeignKey, Boolean, Integer
 from sqlalchemy.orm import Mapped, mapped_column
 from src.config.database import Base
 class Job(Base):
@@ -14,3 +14,5 @@ class Job(Base):
     created_by: Mapped[int] = mapped_column(ForeignKey('users.id'))
     created_at: Mapped[float] = mapped_column(Double)
     finished_at: Mapped[float | None] = mapped_column(Double, nullable=True)
+    # 执行栅栏：worker 只允许 lease_epoch 与整站 epoch 一致的任务写回结果。
+    lease_epoch: Mapped[int] = mapped_column(Integer, default=0)

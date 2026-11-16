@@ -2,11 +2,11 @@ import time, os, csv, io, hashlib, json
 from fastapi import HTTPException
 from src.models import Job, Report, Delivery
 from src.config.settings import ARTIFACT_DIR
-def create(db, data):
+def create(db, data, actor=''):
     j=db.get(Job,data.job_id)
     if not j or j.status!='completed' or not j.approved:
         raise HTTPException(409,'请先选择已完成且获批准的分析结果')
-    r=Report(name=data.name, job_id=j.id, destination=data.destination, interval_seconds=data.interval_seconds, next_run=time.time()+data.delay_seconds, enabled=True)
+    r=Report(name=data.name, job_id=j.id, destination=data.destination, interval_seconds=data.interval_seconds, next_run=time.time()+data.delay_seconds, enabled=True, created_by=actor, restore_paused=False)
     db.add(r); db.flush()
     return r
 def deliver(db, report):

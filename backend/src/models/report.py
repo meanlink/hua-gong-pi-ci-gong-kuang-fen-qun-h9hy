@@ -10,6 +10,9 @@ class Report(Base):
     interval_seconds: Mapped[int]
     next_run: Mapped[float] = mapped_column(Double)
     enabled: Mapped[bool] = mapped_column(Boolean, default=True)
+    created_by: Mapped[str] = mapped_column(String(150), default='')
+    # 由检查点恢复出的计划先暂停，等待负责人确认后再启用。
+    restore_paused: Mapped[bool] = mapped_column(Boolean, default=False)
 class Delivery(Base):
     __tablename__ = 'deliveries'
     id: Mapped[int] = mapped_column(primary_key=True)

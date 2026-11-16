@@ -8,3 +8,16 @@ class JobStatus(str, Enum):
     running = 'running'
     completed = 'completed'
     failed = 'failed'
+    paused = 'paused'
+
+class CheckpointStatus(str, Enum):
+    creating = 'creating'
+    ready = 'ready'
+    failed = 'failed'
+
+class RestoreStatus(str, Enum):
+    pending = 'pending'
+    running = 'running'
+    finalizing = 'finalizing'
+    completed = 'completed'
+    failed = 'failed'
